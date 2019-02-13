@@ -1,24 +1,105 @@
 <% provide(:title, @user.name) %>
+
+
+
+<pre>
+  <%= @user.inspect %><br>
+</pre>
+  
+  
+  
 <div class="row">
   <aside class="col-md-4">
     <section>
       <h1>
         <%= gravatar_for @user %>
-        <%= @user.name %>
+        氏名　<%= @user.name %><br>
+        所属　<%= @user.affiliation %>
       </h1>
     </section>
-    <section class="stats">
-      <%= render 'shared/stats' %>
-    </section>
   </aside>
-  <div class="col-md-8">
-    <%= render 'follow_form' if logged_in? %>
-    <% if @user.microposts.any? %>
-      <h3>Microposts (<%= @user.microposts.count %>)</h3>
-      <ol class="microposts">
-        <%= render @microposts %>
-      </ol>
-      <%= will_paginate @microposts %>
-    <% end %>
+  
+  <table class="">
+    <tr>
+      <th>出勤日数</th>
+      <th>指定勤務時間</th>
+      <th>基本時間</th>
+      <th>初日</th>
+      <th>締め</th>
+    </tr>
+    <tr>
+      <td><%= @total_days %>日</td>
+      <td>
+        <%= @user[:designation_work_hours].present? ? @user[:designation_work_hours] + '時間': '未設定'; %>
+      </td>
+      <td>
+        <%= @user[:besic_work_hours].present? ? @user[:besic_work_hours] + '時間': '未設定'; %>
+      </td>
+      <td><%= @target_date.month %>/1</td>
+      <td><%= @target_date.month %>/<%= @end_day %></td>
+    </tr>
+  </table>
+
+  <% if @is_admin && @today.to_date.strftime('%-m') >= @target_date.strftime('%-m') %>
+    <div class="">
+      <button type="button"><%= link_to "勤怠を編集", controller: "users", action: "attendance_edit", id: params[:id] %></button>
+    </div>
+  <% end %>
+    
+  <div class="">
+    <button type="button"><%= link_to "前月へ", "/users/#{params[:id]}?q=#{@query.to_i-1}" %></button>
+      <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
+    <button type="button"><%= link_to "翌月へ", "/users/#{params[:id]}?q=#{@query.to_i+1}" %></button>
   </div>
+  
+  <%# 勤怠表 ここから=============================================================== %>
+  <table class="table-design">
+    <tr>
+      <th>日付</th>
+      <th>曜日</th>
+      <th>出勤</th>
+      <th></th>
+      <th>退勤</th>
+      <th></th>
+      <th>勤務時間</th>
+      <th>備考</th>
+    </tr>
+    <% @list_months.each do |day| %>
+      <% @total_time += day[:work_hours].to_f %>
+      <tr>
+        <td><%= day[:date].to_date.strftime('%-m/%-d') %></td>
+        <td><%= day[:wday] %></td>
+        <td><%= day[:start_time] %></td>
+        <% if day[:is_clock_in] === 1 %>
+          <td><%= link_to "出勤", clock_in_path(user_id: params[:id]) %></td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <td><%= day[:end_time] %></td>
+        <% if day[:is_clock_out] === 1 %>
+          <td><%= link_to "退勤", clock_out_path(user_id: params[:id]) %></td>
+        <% else %>
+          <td></td>
+        <% end %>
+        <td><%= day[:work_hours] === nil ? '' : "#{day[:work_hours]}時間" %></td>
+        <td></td>
+      </tr>
+    <% end %>
+    
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>勤務時間の合計</td>
+      <td><%= @total_time.round(1) %>時間</td>
+      <td></td>
+    </tr>
+  </table>
+  <%# 勤怠表 ここまで=============================================================== %>
+</div>
+<br>
+
+<div class="col-md-8">
 </div>

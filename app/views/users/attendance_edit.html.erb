@@ -1,0 +1,54 @@
+<h1><%= @attendance_edit %></h1>
+
+<div class="row">
+  <div class="">
+    <button type="button"><%= link_to "勤怠ページに戻る", controller: "users", action: "show", id: params[:id] %></button>
+  </div>
+  
+  <div class="">
+    <button type="button"><%= link_to "前月へ", "/attendance_edit/#{params[:id]}?q=#{@query.to_i-1}" %></button>
+      <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
+    <button type="button"><%= link_to "翌月へ", "/attendance_edit/#{params[:id]}?q=#{@query.to_i+1}" %></button>
+  </div>
+  
+  <%= form_for @user, url: attendance_save_path do |f| %>
+    <table class="table-design">
+      <tbody>
+        <tr>
+          <th>日付</th>
+          <th>曜日</th>
+          <th>出勤</th>
+          <th>退勤</th>
+          <th>備考</th>
+        </tr>
+
+        <% @shift.each do |shift| %>
+          <tr>
+            <td><%= shift.date.to_date.strftime('%-m/%-d') %></td>
+            <td><%= @wday[shift.date.to_date.wday] %></td>
+           
+            <%= fields_for 'shifts[]', shift do |s| %>
+              <td><%= s.time_field :start_time, value: s.object.start_time, class: 'form-control' %></td>
+              <td><%= s.time_field :end_time, value: s.object.end_time, class: 'form-control' %></td>
+              
+              <!--<td><%#= s.select :start_time, @time_list, prompt: '--:--:--', class: 'form-control' %></td>-->
+              <!--<td><%#= s.select :end_time, @time_list, prompt: '--:--:--', class: 'form-control' %></td>-->
+            <% end %>
+            
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <%= f.hidden_field :user_id, value: @user.id %>
+    
+    <button type="button"><%= link_to "キャンセル", controller: "users", action: "show", id: params[:id] %></button>
+    <%= f.submit "保存する", class: "btn btn-primary" %>
+  <% end %>
+  
+</div>
+<br>
+
+<div class="col-md-8">
+</div>
