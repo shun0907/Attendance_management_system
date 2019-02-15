@@ -8,8 +8,8 @@
   
   
   
-<div class="row">
-  <aside class="col-md-4">
+<div class='row'>
+  <aside class='col-md-4'>
     <section>
       <h1>
         <%= gravatar_for @user %>
@@ -19,70 +19,70 @@
     </section>
   </aside>
   
-  <table class="">
+  <table class='margin-b-10'>
     <tr>
-      <th>出勤日数</th>
-      <th>指定勤務時間</th>
-      <th>基本時間</th>
-      <th>初日</th>
-      <th>締め</th>
+      <th class='width-20'>出勤日数</th>
+      <th class='width-20'>指定勤務時間</th>
+      <th class='width-20'>基本時間</th>
+      <th class='width-20'>初日</th>
+      <th class='width-20'>締め</th>
     </tr>
     <tr>
-      <td><%= @total_days %>日</td>
-      <td>
+      <td class='width-20'><%= @total_days %>日</td>
+      <td class='width-20'>
         <%= @user[:designation_work_hours].present? ? @user[:designation_work_hours] + '時間': '未設定'; %>
       </td>
-      <td>
+      <td class='width-20'>
         <%= @user[:besic_work_hours].present? ? @user[:besic_work_hours] + '時間': '未設定'; %>
       </td>
-      <td><%= @target_date.month %>/1</td>
-      <td><%= @target_date.month %>/<%= @end_day %></td>
+      <td class='width-20'><%= @target_date.month %>/1</td>
+      <td class='width-20'><%= @target_date.month %>/<%= @end_day %></td>
     </tr>
   </table>
 
   <% if @is_admin && @today.to_date.strftime('%-m') >= @target_date.strftime('%-m') %>
-    <div class="">
-      <button type="button"><%= link_to "勤怠を編集", controller: "users", action: "attendance_edit", id: params[:id] %></button>
+    <div class='margin-b-10'>
+      <%= link_to '勤怠を編集', { controller: 'users', action: 'attendance_edit', id: params[:id] }, class: 'btn btn-primary btn-font-color' %>
     </div>
   <% end %>
     
-  <div class="">
-    <button type="button"><%= link_to "前月へ", "/users/#{params[:id]}?q=#{@query.to_i-1}" %></button>
-      <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
-    <button type="button"><%= link_to "翌月へ", "/users/#{params[:id]}?q=#{@query.to_i+1}" %></button>
+  <div class='margin-b-10'>
+    <%= link_to '前月へ', "/users/#{params[:id]}?q=#{@query.to_i-1}", class: 'btn btn-primary btn-font-color' %>
+    <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
+    <%= link_to '翌月へ', "/users/#{params[:id]}?q=#{@query.to_i+1}", class: 'btn btn-primary btn-font-color' %>
   </div>
   
   <%# 勤怠表 ここから=============================================================== %>
-  <table class="table-design">
+  <table class='table-design'>
     <tr>
-      <th>日付</th>
-      <th>曜日</th>
-      <th>出勤</th>
-      <th></th>
-      <th>退勤</th>
-      <th></th>
-      <th>勤務時間</th>
-      <th>備考</th>
+      <th class='width-5'>日付</th>
+      <th class='width-5'>曜日</th>
+      <th class='width-12'>出勤</th>
+      <th class='width-7'></th>
+      <th class='width-12'>退勤</th>
+      <th class='width-7'></th>
+      <th class='width-12'>勤務時間</th>
+      <th class='width-'>備考</th>
     </tr>
     <% @list_months.each do |day| %>
       <% @total_time += day[:work_hours].to_f %>
       <tr>
-        <td><%= day[:date].to_date.strftime('%-m/%-d') %></td>
-        <td><%= day[:wday] %></td>
-        <td><%= day[:start_time] %></td>
-        <% if day[:is_clock_in] === 1 %>
-          <td><%= link_to "出勤", clock_in_path(user_id: params[:id]) %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-        <td><%= day[:end_time] %></td>
-        <% if day[:is_clock_out] === 1 %>
-          <td><%= link_to "退勤", clock_out_path(user_id: params[:id]) %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-        <td><%= day[:work_hours] === nil ? '' : "#{day[:work_hours]}時間" %></td>
-        <td></td>
+        <td class='width-5'><%= day[:date].to_date.strftime('%-m/%-d') %></td>
+        <td class='width-5'><%= day[:wday] %></td>
+        <td class='width-12'><%= day[:start_time] %></td>
+        <td class='width-7'>
+          <% if day[:is_clock_in] === 1 %>
+            <%= link_to '出勤', clock_in_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
+          <% end %>
+        </td>
+        <td class='width-12'><%= day[:end_time] %></td>
+        <td class='width-7'>
+          <% if day[:is_clock_out] === 1 %>
+            <%= link_to '退勤', clock_out_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
+          <% end %>
+        </td>
+        <td class='width-12'><%= day[:work_hours] === nil ? '' : "#{day[:work_hours]}時間" %></td>
+        <td class='width-'></td>
       </tr>
     <% end %>
     
@@ -100,6 +100,3 @@
   <%# 勤怠表 ここまで=============================================================== %>
 </div>
 <br>
-
-<div class="col-md-8">
-</div>
