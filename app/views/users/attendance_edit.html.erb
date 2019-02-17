@@ -2,7 +2,7 @@
 
 <div class='row'>
   <div class='margin-b-10'>
-    <%= link_to '勤怠ページに戻る', { controller: 'users', action: 'show', id: params[:id] }, class: 'btn btn-primary btn-font-color' %>
+    <%= link_to '勤怠ページに戻る', { controller: 'users', action: 'show', id: params[:id], q: @query.to_i }, class: 'btn btn-primary btn-font-color' %>
   </div>
   
   <div class='margin-b-10'>
@@ -28,8 +28,8 @@
             <td class='width-5'><%= @wday[shift.date.to_date.wday] %></td>
            
             <%= fields_for 'shifts[]', shift do |s| %>
-              <td class='width-20'><%= s.time_field :start_time, value: s.object.start_time, class: 'form-control' %></td>
-              <td class='width-20'><%= s.time_field :end_time, value: s.object.end_time, class: 'form-control' %></td>
+              <td class='width-20 padding-a-5'><%= s.time_field :start_time, value: s.object.start_time, class: 'form-control height_i margin-n' %></td>
+              <td class='width-20 padding-a-5'><%= s.time_field :end_time, value: s.object.end_time, class: 'form-control height_i margin-n' %></td>
             <% end %>
             
             <td></td>

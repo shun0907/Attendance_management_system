@@ -34,14 +34,14 @@
 
   <% if @is_admin && @today.to_date.strftime('%-m') >= @target_date.strftime('%-m') %>
     <div class='margin-b-10'>
-      <%= link_to '勤怠を編集', { controller: 'users', action: 'attendance_edit', id: params[:id] }, class: 'btn btn-primary btn-font-color' %>
+      <%= link_to '勤怠を編集', { controller: 'users', action: 'attendance_edit', id: params[:id], q: @query.to_i }, class: 'btn btn-primary btn-font-color' %>
     </div>
   <% end %>
     
   <div class='margin-b-10'>
-    <%= link_to '前月へ', "/users/#{params[:id]}?q=#{@query.to_i-1}", class: 'btn btn-primary btn-font-color' %>
+    <%= link_to '前月へ', "/users/#{params[:id]}?q=#{@query.to_i - 1}", class: 'btn btn-primary btn-font-color' %>
     <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
-    <%= link_to '翌月へ', "/users/#{params[:id]}?q=#{@query.to_i+1}", class: 'btn btn-primary btn-font-color' %>
+    <%= link_to '翌月へ', "/users/#{params[:id]}?q=#{@query.to_i + 1}", class: 'btn btn-primary btn-font-color' %>
   </div>
   
   <%# 勤怠表 ここから=============================================================== %>

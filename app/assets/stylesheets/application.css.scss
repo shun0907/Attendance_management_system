@@ -298,6 +298,10 @@ td {
   display: inline-block;
 }
 
+.height_i {
+  height: 30px !important;
+}
+
 .width-5 {
   width: 5%;
 }
@@ -322,6 +326,10 @@ td {
   width: 100%;
 }
 
+.padding-a-5 {
+  padding: 5px !important;
+}
+
 .padding-rl-20 {
   padding-right: 20px;
   padding-left: 20px;
@@ -342,6 +350,10 @@ td {
 
 .padding-l-15 {
   padding-left: 15px;
+}
+
+.margin-n{
+  margin: 0 !important;
 }
 
 .margin-b-10 {

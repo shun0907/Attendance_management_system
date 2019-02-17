@@ -72,6 +72,8 @@ class UsersController < ApplicationController
     
     @user = User.find(params[:id])
     @shift = Shift.where(user_id: params[:id], date: start_day..end_day).order(:date)
+    
+    Shift.shift_list(params)
   end
   
   def attendance_save
@@ -101,7 +103,7 @@ class UsersController < ApplicationController
       flash[:success] = '勤怠時間を更新しました。'
       action = 'show'
     else
-      flash[:warning] = '未来の勤怠編集および出社時間より退社時間が早い勤怠編集は出来ません。'
+      flash[:danger] = '未来の勤怠編集および出社時間より退社時間が早い勤怠編集は出来ません。'
       action = 'attendance_edit'
     end
 
