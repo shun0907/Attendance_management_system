@@ -5,23 +5,20 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
-      # if user.activated?
-        log_in user
-        params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+
+    if user.present?
+      if user.authenticate(params[:session][:password])
+        session[:user_id] = user.id
+        flash[:success] = 'ログインしました'
         redirect_back_or user
-      # else
-      #   message  = "アカウントが有効になっていません。"
-      #   message += "電子メールでアクティベーションリンクを確認してください。"
-      #   flash[:warning] = message
-      #   redirect_to root_url
-      # end
+      else
+        flash.now[:danger] = 'メールアドレスとパスワードが一致しません'
+        render 'new'
+      end
     else
-      flash.now[:danger] = 'メールアドレスとパスワードが一致しません'
+      flash.now[:danger] = 'このメールアドレスを使用しているユーザーは存在しません'
       render 'new'
     end
-    session[:user_id] = user.id
-    flash[:success] = 'ログインしました'
   end
 
   def destroy
