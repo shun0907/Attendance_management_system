@@ -1,4 +1,5 @@
 class Shift < ApplicationRecord
+  default_scope -> { order(:date) }
   belongs_to :user
   
   require "time"

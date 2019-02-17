@@ -71,17 +71,7 @@ class UsersController < ApplicationController
     end_day = @target_date.end_of_month.strftime('%Y-%m-%d')
     
     @user = User.find(params[:id])
-    @shift = Shift.where(user_id: params[:id], date: start_day..end_day)
-    
-    @shift.each do |shift|
-      
-      # logger.debug('@shift ============')
-      # logger.debug(shift.inspect)
-      
-    end
-    
-   
-    # date_related_value
+    @shift = Shift.where(user_id: params[:id], date: start_day..end_day).order(:date)
   end
   
   def attendance_save
