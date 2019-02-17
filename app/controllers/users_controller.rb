@@ -70,6 +70,8 @@ class UsersController < ApplicationController
     start_day = @target_date.beginning_of_month.strftime('%Y-%m-%d')
     end_day = @target_date.end_of_month.strftime('%Y-%m-%d')
     
+    @is_future = today <= @target_date.to_s ? true : false;
+    
     @user = User.find(params[:id])
     @shift = Shift.where(user_id: params[:id], date: start_day..end_day).order(:date)
     

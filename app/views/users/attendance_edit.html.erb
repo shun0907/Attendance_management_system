@@ -8,7 +8,9 @@
   <div class='margin-b-10'>
     <%= link_to '前月へ', "/attendance_edit/#{params[:id]}?q=#{@query.to_i-1}", class: 'btn btn-primary btn-font-color' %>
     <%= @target_date.year %>年<%= @target_date.month %>月　時間管理表
-    <%= link_to '翌月へ', "/attendance_edit/#{params[:id]}?q=#{@query.to_i+1}", class: 'btn btn-primary btn-font-color' %>
+    <% if !@is_future %>
+      <%= link_to '翌月へ', "/attendance_edit/#{params[:id]}?q=#{@query.to_i+1}", class: 'btn btn-primary btn-font-color' %>
+    <% end %>
   </div>
   
   <%= form_for @user, url: attendance_save_path do |f| %>
