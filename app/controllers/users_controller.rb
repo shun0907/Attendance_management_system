@@ -59,8 +59,7 @@ class UsersController < ApplicationController
   end
   
   def attendance_edit
-    @attendance_edit = '勤怠編集ページ'
-    
+    is_admin
     @wday = [ '日', '月', '火', '水', '木', '金', '土' ]
     @query = params[:q].nil? ? "0" : params[:q];
     today = Time.zone.now.in_time_zone('Tokyo').strftime('%Y-%m-%d')

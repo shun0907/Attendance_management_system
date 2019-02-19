@@ -1,4 +1,7 @@
-<h1><%= @attendance_edit %></h1>
+<h1>
+  勤怠編集
+  <%= @is_admin ? "（編集対象者：#{@user.name}）" : nil; %>
+</h1>
 
 <div class='row'>
   <div class='margin-b-10'>
