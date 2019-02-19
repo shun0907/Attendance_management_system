@@ -11,10 +11,6 @@ class UsersController < ApplicationController
 
   def index
     is_admin
-    
-    logger.debug('is_admin ========================')
-    logger.debug(@is_admin)
-      
     @users = User.all.paginate(page: params[:page])
   end
   
@@ -45,6 +41,7 @@ class UsersController < ApplicationController
     
     shift.update(start_time: clock_in.strftime('%H:%M'))
     
+    flash[:success] = '出社しました'
     user = User.find(user_id)
     redirect_to(user)
   end
@@ -56,6 +53,7 @@ class UsersController < ApplicationController
     
     shift.update(end_time: clock_out.strftime('%H:%M'))
     
+    flash[:success] = '退社しました'
     user = User.find(user_id)
     redirect_to(user)
   end
@@ -63,7 +61,7 @@ class UsersController < ApplicationController
   def attendance_edit
     @attendance_edit = '勤怠編集ページ'
     
-    @wday = [ "日", "月", "火", "水", "木", "金", "土" ]
+    @wday = [ '日', '月', '火', '水', '木', '金', '土' ]
     @query = params[:q].nil? ? "0" : params[:q];
     today = Time.zone.now.in_time_zone('Tokyo').strftime('%Y-%m-%d')
     @target_date = today.to_date.months_since(@query.to_i)
@@ -86,7 +84,7 @@ class UsersController < ApplicationController
       
       today = Time.zone.now.in_time_zone('Tokyo').strftime('%Y-%m-%d')
 
-      if param['start_time'].present? || param['end_time'].present?
+      if param['start_time'].present? && param['end_time'].present?
         if param['end_time'].present? && param['start_time'] > param['end_time']
           is_success = false
           next
@@ -98,18 +96,22 @@ class UsersController < ApplicationController
         end
       
         shift.update_attributes(param)
+      else
+        if param['start_time'].present? || param['end_time'].present?
+          is_success = false
+        end
       end
     end
     
     if is_success
-      flash[:success] = '勤怠時間を更新しました。'
+      flash[:success] = '勤怠時間を更新しました'
       action = 'show'
     else
-      flash[:danger] = '未来の勤怠編集および出社時間より退社時間が早い勤怠編集は出来ません。'
+      flash[:danger] = '不正な箇所は勤怠編集は出来ませんでした（該当項目: 非現実・未来の時間・出退社片方のみ）'
       action = 'attendance_edit'
     end
 
-    redirect_to controller: 'users', action: action, id: params[:user][:user_id]
+    redirect_to controller: 'users', action: action, id: params[:user][:user_id], q: params[:user][:query]
   end
 
   def new
@@ -164,14 +166,14 @@ class UsersController < ApplicationController
   end
   
   def following
-    @title = "Following"
+    @title = 'Following'
     @user  = User.find(params[:id])
     @users = @user.following.paginate(page: params[:page])
     render 'show_follow'
   end
 
   def followers
-    @title = "Followers"
+    @title = 'Followers'
     @user  = User.find(params[:id])
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'

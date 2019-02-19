@@ -19,8 +19,8 @@
         <tr>
           <th class='width-5'>日付</th>
           <th class='width-5'>曜日</th>
-          <th class='width-20'>出勤</th>
-          <th class='width-20'>退勤</th>
+          <th class='width-20'>出社時間</th>
+          <th class='width-20'>退社時間</th>
           <th>備考</th>
         </tr>
 
@@ -41,6 +41,7 @@
     </table>
     
     <%= f.hidden_field :user_id, value: @user.id %>
+    <%= f.hidden_field :query, value: @query %>
     
     <div class='margin-b-10 padding-l-15'>
       <div class='width-49 inline-block padding-r-10 padding-l-10'>

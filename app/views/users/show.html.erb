@@ -32,7 +32,7 @@
     </tr>
   </table>
 
-  <% if @is_admin && @today.to_date.strftime('%-m') >= @target_date.strftime('%-m') %>
+  <% if @today.to_date.strftime('%-m') >= @target_date.strftime('%-m') %>
     <div class='margin-b-10'>
       <%= link_to '勤怠を編集', { controller: 'users', action: 'attendance_edit', id: params[:id], q: @query.to_i }, class: 'btn btn-primary btn-font-color' %>
     </div>
@@ -49,9 +49,9 @@
     <tr>
       <th class='width-5'>日付</th>
       <th class='width-5'>曜日</th>
-      <th class='width-12'>出勤</th>
+      <th class='width-12'>出社時間</th>
       <th class='width-7'></th>
-      <th class='width-12'>退勤</th>
+      <th class='width-12'>退社時間</th>
       <th class='width-7'></th>
       <th class='width-12'>勤務時間</th>
       <th class='width-'>備考</th>
@@ -64,13 +64,13 @@
         <td class='width-12'><%= day[:start_time] %></td>
         <td class='width-7'>
           <% if day[:is_clock_in] === 1 %>
-            <%= link_to '出勤', clock_in_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
+            <%= link_to '出社', clock_in_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
           <% end %>
         </td>
         <td class='width-12'><%= day[:end_time] %></td>
         <td class='width-7'>
           <% if day[:is_clock_out] === 1 %>
-            <%= link_to '退勤', clock_out_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
+            <%= link_to '退社', clock_out_path(user_id: params[:id]), class: 'btn btn-primary padding-tb-2 padding-rl-20' %>
           <% end %>
         </td>
         <td class='width-12'><%= day[:work_hours] === nil ? '' : "#{day[:work_hours]}時間" %></td>
