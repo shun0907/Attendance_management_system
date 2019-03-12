@@ -16,8 +16,16 @@ class UsersController < ApplicationController
   
   def show
     is_admin
+    
+    if !@is_admin && session[:user_id].to_i != params[:id].to_i
+      @user = User.find(session[:user_id])
+      flash[:danger] = '本人以外の勤怠ページにはアクセスできません'
+    else
+      @user = User.find(params[:id])
+      flash.delete(:danger)
+    end
+    
     @today = Date.today.strftime('%Y年%-m月')
-    @user = User.find(params[:id])
     @total_time = 0
     
     @list_months, @query, @target_date, @end_day, @total_days, @today = Shift.shift_list(params)
