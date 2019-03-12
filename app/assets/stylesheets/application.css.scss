@@ -290,6 +290,16 @@ td {
   text-align: center;
 }
 
+.access-error {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
 .btn-font-color {
   color: #fff;
 }
@@ -358,4 +368,9 @@ td {
 
 .margin-b-10 {
   margin-bottom: 10px;
+}
+
+.test_class {
+  text-align: center;
+  // margin: 0 auto;
 }
