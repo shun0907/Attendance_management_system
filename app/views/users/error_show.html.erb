@@ -2,8 +2,6 @@
 
 <div class="access-error">本人以外の勤怠ページにはアクセスできません</div>
 
-<div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <%= link_to '戻る', { controller: 'users', action: 'show', id: session[:user_id], q: @query.to_i }, class: 'btn btn-primary width-100' %>
-  </div>
+<div class="col-md-4 col-md-offset-4 margin-t-70">
+  <%= link_to '戻る', { controller: 'users', action: 'show', id: session[:user_id], q: @query.to_i }, class: 'btn btn-primary width-100' %>
 </div>
